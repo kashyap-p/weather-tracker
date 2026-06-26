@@ -1,117 +1,61 @@
 <div align="center">
 
 <!-- Animated Weather SVG -->
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#60a5fa"/>
       <stop offset="100%" stop-color="#a78bfa"/>
-      <animateTransform attributeName="gradientTransform" type="rotate" from="0 0.5 0.5" to="360 0.5 0.5" dur="8s" repeatCount="indefinite"/>
     </linearGradient>
+    <style>
+      @keyframes pulse { 0%,100% { r: 14px; } 50% { r: 16px; } }
+      @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      @keyframes drift { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+      @keyframes dot1 { 0%,100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+      @keyframes dot2 { 0%,100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+      @keyframes dot3 { 0%,100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+      @keyframes barAnim { from { width: 0; } }
+      @keyframes fillAnim { from { width: 0%; } }
+      @keyframes glowPulse { 0%,100% { opacity: 0; } 50% { opacity: 0.15; } }
+    </style>
   </defs>
-  <!-- Sun -->
-  <circle cx="60" cy="45" r="18" fill="#facc15" opacity="0.9">
-    <animate attributeName="r" values="18;20;18" dur="3s" repeatCount="indefinite"/>
-  </circle>
-  <!-- Sun rays -->
-  <g stroke="#facc15" stroke-width="2.5" stroke-linecap="round" opacity="0.6">
-    <line x1="60" y1="18" x2="60" y2="12"><animateTransform attributeName="transform" type="rotate" from="0 60 45" to="360 60 45" dur="12s" repeatCount="indefinite"/></line>
-    <line x1="60" y1="72" x2="60" y2="78"><animateTransform attributeName="transform" type="rotate" from="0 60 45" to="360 60 45" dur="12s" repeatCount="indefinite"/></line>
-    <line x1="33" y1="45" x2="27" y2="45"><animateTransform attributeName="transform" type="rotate" from="0 60 45" to="360 60 45" dur="12s" repeatCount="indefinite"/></line>
-    <line x1="87" y1="45" x2="93" y2="45"><animateTransform attributeName="transform" type="rotate" from="0 60 45" to="360 60 45" dur="12s" repeatCount="indefinite"/></line>
+  <circle cx="48" cy="38" r="15" fill="#facc15" opacity="0.9"><animate attributeName="r" values="15;17;15" dur="3s" repeatCount="indefinite"/></circle>
+  <g stroke="#facc15" stroke-width="2" stroke-linecap="round" opacity="0.5">
+    <line x1="48" y1="14" x2="48" y2="8"><animateTransform attributeName="transform" type="rotate" from="0 48 38" to="360 48 38" dur="10s" repeatCount="indefinite"/></line>
+    <line x1="48" y1="62" x2="48" y2="68"><animateTransform attributeName="transform" type="rotate" from="0 48 38" to="360 48 38" dur="10s" repeatCount="indefinite"/></line>
+    <line x1="24" y1="38" x2="18" y2="38"><animateTransform attributeName="transform" type="rotate" from="0 48 38" to="360 48 38" dur="10s" repeatCount="indefinite"/></line>
+    <line x1="72" y1="38" x2="78" y2="38"><animateTransform attributeName="transform" type="rotate" from="0 48 38" to="360 48 38" dur="10s" repeatCount="indefinite"/></line>
   </g>
-  <!-- Cloud -->
-  <g fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1">
-    <ellipse cx="42" cy="70" rx="22" ry="14">
-      <animate attributeName="cx" values="42;46;42" dur="6s" repeatCount="indefinite"/>
-    </ellipse>
-    <ellipse cx="62" cy="66" rx="18" ry="12">
-      <animate attributeName="cx" values="62;66;62" dur="6s" repeatCount="indefinite"/>
-    </ellipse>
-    <ellipse cx="80" cy="72" rx="16" ry="10">
-      <animate attributeName="cx" values="80;84;80" dur="6s" repeatCount="indefinite"/>
-    </ellipse>
-    <rect x="36" y="60" width="46" height="12" rx="6" fill="rgba(255,255,255,0.15)">
-      <animate attributeName="x" values="36;40;36" dur="6s" repeatCount="indefinite"/>
-    </rect>
+  <g fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)" stroke-width="1">
+    <ellipse cx="30" cy="62" rx="20" ry="13"><animate attributeName="cx" values="30;34;30" dur="6s" repeatCount="indefinite"/></ellipse>
+    <ellipse cx="50" cy="58" rx="16" ry="11"><animate attributeName="cx" values="50;54;50" dur="6s" repeatCount="indefinite"/></ellipse>
+    <ellipse cx="68" cy="64" rx="14" ry="9"><animate attributeName="cx" values="68;72;68" dur="6s" repeatCount="indefinite"/></ellipse>
   </g>
 </svg>
 
 <br/>
 
-<!-- Animated Title -->
-<h1 style="font-size: 2.6rem; font-weight: 700; margin: 4px 0; background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6, #60a5fa); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shift 4s ease-in-out infinite;">
-  Weather Tracker
-</h1>
+<h1 style="font-size: 2.5rem; font-weight: 700; margin: 8px 0; color: #60a5fa;">Weather Tracker</h1>
 
-<style>
-@keyframes shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-@keyframes fadeSlide {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.05); }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-@keyframes barFill {
-  from { width: 0%; }
-}
-@keyframes countUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.anim-fade { animation: fadeSlide 0.6s ease-out both; }
-.anim-fade-1 { animation: fadeSlide 0.6s ease-out 0.1s both; }
-.anim-fade-2 { animation: fadeSlide 0.6s ease-out 0.2s both; }
-.anim-fade-3 { animation: fadeSlide 0.6s ease-out 0.3s both; }
-.anim-fade-4 { animation: fadeSlide 0.6s ease-out 0.4s both; }
-.anim-pulse { animation: pulse 2s ease-in-out infinite; }
-.anim-float { animation: float 3s ease-in-out infinite; }
-.bar { height: 8px; background: rgba(96,165,250,0.15); border-radius: 4px; overflow: hidden; margin: 6px 0; }
-.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #60a5fa, #a78bfa); animation: barFill 1.2s ease-out both; }
-.tag { display: inline-block; padding: 4px 14px; margin: 3px; border-radius: 20px; font-size: 0.82rem; font-weight: 500; background: rgba(96,165,250,0.12); color: #60a5fa; border: 1px solid rgba(96,165,250,0.2); transition: all 0.3s; }
-</style>
-
-<br/>
-<p class="anim-fade" style="font-size: 1.05rem; color: rgba(255,255,255,0.75); max-width: 520px; margin: 0 auto;">
-  A beautiful, live weather dashboard with <strong style="color: #fff;">glassmorphism UI</strong>.<br/>
-  Built with <strong>React</strong> + <strong>Vite</strong> · Powered by <strong>Open-Meteo</strong> · No API key required
+<p style="font-size: 1.05rem; color: #94a3b8; max-width: 500px; margin: 0 auto;">
+  A beautiful, live weather dashboard with <strong style="color: #e2e8f0;">glassmorphism UI</strong>.
+  Built with <strong style="color: #e2e8f0;">React</strong> + <strong style="color: #e2e8f0;">Vite</strong> · Powered by <strong style="color: #e2e8f0;">Open-Meteo</strong> · No API key required
 </p>
 
 <br/>
 
-<!-- Badges -->
 <p>
-  <span class="tag anim-fade-1">⚛️ React 19</span>
-  <span class="tag anim-fade-1">⚡ Vite 8</span>
-  <span class="tag anim-fade-1">🌐 Open-Meteo API</span>
-  <span class="tag anim-fade-2">🎨 Glassmorphism</span>
-  <span class="tag anim-fade-2">🌙 Dark / Light</span>
-  <span class="tag anim-fade-2">📱 Responsive</span>
-  <span class="tag anim-fade-3">❄️ Particle Effects</span>
-  <span class="tag anim-fade-3">📍 Geo-location</span>
-  <span class="tag anim-fade-3">🎯 Free · No Key</span>
+  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white&style=flat-square" alt="React"/>
+  <img src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white&style=flat-square" alt="Vite"/>
+  <img src="https://img.shields.io/badge/Free-No%20Key-22c55e?style=flat-square" alt="Free"/>
+  <img src="https://img.shields.io/badge/license-MIT-94a3b8?style=flat-square" alt="License"/>
 </p>
 
-<br/>
-
-<!-- Divider -->
-<svg width="60" height="12" viewBox="0 0 60 12">
-  <circle cx="6" cy="6" r="4" fill="#60a5fa" opacity="0.6"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" begin="0s" repeatCount="indefinite"/></circle>
-  <circle cx="30" cy="6" r="4" fill="#a78bfa" opacity="0.6"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" begin="0.3s" repeatCount="indefinite"/></circle>
-  <circle cx="54" cy="6" r="4" fill="#f472b6" opacity="0.6"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" begin="0.6s" repeatCount="indefinite"/></circle>
+<!-- Animated divider dots -->
+<svg width="60" height="10" viewBox="0 0 60 10">
+  <circle cx="6" cy="5" r="3" fill="#60a5fa"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="2s" begin="0s" repeatCount="indefinite"/></circle>
+  <circle cx="30" cy="5" r="3" fill="#a78bfa"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="2s" begin="0.3s" repeatCount="indefinite"/></circle>
+  <circle cx="54" cy="5" r="3" fill="#f472b6"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="2s" begin="0.6s" repeatCount="indefinite"/></circle>
 </svg>
 
 </div>
@@ -120,216 +64,136 @@
 
 ## ✨ Features
 
-<div class="anim-fade-1">
-
 <table>
 <tr>
-  <td width="50%">
-    <strong>🌤️ Live Weather</strong><br/>
-    <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Real-time data from Open-Meteo</span>
-    <div class="bar"><div class="bar-fill" style="width: 100%; animation-delay: 0.1s;"></div></div>
-  </td>
-  <td width="50%">
-    <strong>🔍 City Autocomplete</strong><br/>
-    <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Instant suggestions with 80ms debounce</span>
-    <div class="bar"><div class="bar-fill" style="width: 95%; animation-delay: 0.15s;"></div></div>
-  </td>
+  <td width="50%"><strong>🌤️ Live Weather</strong><br/><span style="color:#64748b;font-size:0.9rem;">Real-time data from Open-Meteo</span></td>
+  <td width="50%"><strong>🔍 City Autocomplete</strong><br/><span style="color:#64748b;font-size:0.9rem;">Instant suggestions in 80ms</span></td>
 </tr>
 <tr>
-  <td>
-    <strong>📍 Auto-detect Location</strong><br/>
-    <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Browser geolocation on first load</span>
-    <div class="bar"><div class="bar-fill" style="width: 90%; animation-delay: 0.2s;"></div></div>
-  </td>
-  <td>
-    <strong>🎨 Dynamic Background</strong><br/>
-    <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Gradient shifts with temp, time & weather</span>
-    <div class="bar"><div class="bar-fill" style="width: 95%; animation-delay: 0.25s;"></div></div>
-  </td>
+  <td><strong>📍 Auto-detect</strong><br/><span style="color:#64748b;font-size:0.9rem;">Browser geolocation on load</span></td>
+  <td><strong>🎨 Dynamic Background</strong><br/><span style="color:#64748b;font-size:0.9rem;">Gradient shifts with weather</span></td>
 </tr>
 <tr>
-  <td>
-    <strong>🌙 Dark / Light Theme</strong><br/>
-    <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Persisted in localStorage</span>
-    <div class="bar"><div class="bar-fill" style="width: 100%; animation-delay: 0.3s;"></div></div>
-  </td>
-  <td>
-    <strong>📊 8 Weather Details</strong><br/>
-    <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Humidity, wind, pressure, UV, feels-like & more</span>
-    <div class="bar"><div class="bar-fill" style="width: 85%; animation-delay: 0.35s;"></div></div>
-  </td>
+  <td><strong>🌙 Dark / Light Theme</strong><br/><span style="color:#64748b;font-size:0.9rem;">Persisted in localStorage</span></td>
+  <td><strong>📊 8 Weather Details</strong><br/><span style="color:#64748b;font-size:0.9rem;">Humidity, wind, pressure, UV & more</span></td>
 </tr>
 <tr>
-  <td>
-    <strong>⏳ 24‑Hour Forecast</strong><br/>
-    <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Smooth horizontal scroll</span>
-    <div class="bar"><div class="bar-fill" style="width: 85%; animation-delay: 0.4s;"></div></div>
-  </td>
-  <td>
-    <strong>📅 7‑Day Forecast</strong><br/>
-    <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Clickable with temp bars</span>
-    <div class="bar"><div class="bar-fill" style="width: 90%; animation-delay: 0.45s;"></div></div>
-  </td>
+  <td><strong>⏳ 24‑Hour Forecast</strong><br/><span style="color:#64748b;font-size:0.9rem;">Smooth horizontal scroll</span></td>
+  <td><strong>📅 7‑Day Forecast</strong><br/><span style="color:#64748b;font-size:0.9rem;">Clickable with temp bars</span></td>
 </tr>
 <tr>
-  <td>
-    <strong>🌈 Highlights</strong><br/>
-    <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">UV ring, sunrise/set, visibility, max/min</span>
-    <div class="bar"><div class="bar-fill" style="width: 95%; animation-delay: 0.5s;"></div></div>
-  </td>
-  <td>
-    <strong>❄️ Particle Effects</strong><br/>
-    <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Rain, snow, fog, storm, sun glow</span>
-    <div class="bar"><div class="bar-fill" style="width: 80%; animation-delay: 0.55s;"></div></div>
-  </td>
+  <td><strong>🌈 Highlights</strong><br/><span style="color:#64748b;font-size:0.9rem;">UV ring, sunrise/set, visibility</span></td>
+  <td><strong>❄️ Particle Effects</strong><br/><span style="color:#64748b;font-size:0.9rem;">Rain, snow, fog, storm, sun glow</span></td>
 </tr>
 <tr>
-  <td>
-    <strong>📱 Fully Responsive</strong><br/>
-    <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Desktop, tablet, mobile — all optimized</span>
-    <div class="bar"><div class="bar-fill" style="width: 100%; animation-delay: 0.6s;"></div></div>
-  </td>
-  <td>
-    <strong>⚡ Offline Fallback</strong><br/>
-    <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Mock data when API is unreachable</span>
-    <div class="bar"><div class="bar-fill" style="width: 90%; animation-delay: 0.65s;"></div></div>
-  </td>
+  <td><strong>📱 Fully Responsive</strong><br/><span style="color:#64748b;font-size:0.9rem;">Desktop, tablet, mobile optimized</span></td>
+  <td><strong>⚡ Offline Fallback</strong><br/><span style="color:#64748b;font-size:0.9rem;">Mock data when API is down</span></td>
 </tr>
 </table>
-
-</div>
 
 <br/>
 
 <div align="center">
-
-<!-- Animated Divider -->
-<svg width="200" height="3" viewBox="0 0 200 3">
-  <rect x="0" y="0" width="200" height="3" rx="1.5" fill="rgba(255,255,255,0.08)"/>
-  <rect x="0" y="0" height="3" rx="1.5" fill="url(#sg)">
-    <animate attributeName="width" values="0;200;0" dur="4s" repeatCount="indefinite"/>
-  </rect>
+<svg width="160" height="3" viewBox="0 0 160 3">
+  <rect width="160" height="3" rx="1.5" fill="rgba(255,255,255,0.06)"/>
+  <rect height="3" rx="1.5" fill="url(#g)"><animate attributeName="width" values="0;160;0" dur="4s" repeatCount="indefinite"/></rect>
 </svg>
-
 </div>
 
 <br/>
 
 ## 🚀 Quick Start
 
-<div class="anim-fade-2">
-
 ```bash
-# Clone & install
 git clone https://github.com/kashyap-p/weather-tracker.git
 cd weather-tracker
 npm install
-
-# Start dev server (opens at http://localhost:5173)
-npm run dev
-
-# Production build
-npm run build
-npm run preview
+npm run dev      # → http://localhost:5173
+npm run build    # production build
+npm run preview  # preview the build
 ```
 
-</div>
-
-**Zero configuration required.** No API keys, no environment variables, no setup.
+<p style="color:#64748b;">Zero config. No API keys, no env vars, no setup.</p>
 
 <br/>
 
 <div align="center">
-
-<!-- Divider -->
-<svg width="200" height="3" viewBox="0 0 200 3">
-  <rect x="0" y="0" width="200" height="3" rx="1.5" fill="rgba(255,255,255,0.08)"/>
-  <rect x="0" y="0" height="3" rx="1.5" fill="url(#sg)">
-    <animate attributeName="width" values="0;200;0" dur="4s" repeatCount="indefinite"/>
-  </rect>
+<svg width="160" height="3" viewBox="0 0 160 3">
+  <rect width="160" height="3" rx="1.5" fill="rgba(255,255,255,0.06)"/>
+  <rect height="3" rx="1.5" fill="url(#g)"><animate attributeName="width" values="0;160;0" dur="4s" repeatCount="indefinite"/></rect>
 </svg>
-
 </div>
 
 <br/>
 
-## 🧭 Architecture
+## 🧭 How It Works
 
-<pre style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; font-size: 0.85rem; line-height: 1.7;">
+```
 User opens app
-  ├─ 📍 Browser geolocation
-  │    └─ Reverse geocode (BigDataCloud)
-  │         └─ Fetch weather (Open-Meteo)
-  ├─ 🔍 Search city
-  │    └─ Geocode (Open-Meteo)
-  │         └─ Fetch weather (Open-Meteo)
-  │
-  └─ 📊 Render
-       ├─ <span style="color: #60a5fa;">CurrentWeather</span>   — Main temp, icon, feels-like
-       ├─ <span style="color: #60a5fa;">WeatherDetails</span>  — 8‑card detail grid
-       ├─ <span style="color: #60a5fa;">Highlights</span>       — UV ring, sunrise/set, etc.
-       ├─ <span style="color: #60a5fa;">HourlyForecast</span>   — 24h scrollable
-       └─ <span style="color: #60a5fa;">DailyForecast</span>    — 7‑day clickable list
-</pre>
+  ├─ 📍 Browser geolocation → reverse geocode → fetch weather
+  └─ 🔍 Search city → geocode → fetch weather
+       │
+       ▼
+  Render:
+  ├─ CurrentWeather   — temp, icon, location, feels-like
+  ├─ WeatherDetails   — 8‑card detail grid
+  ├─ Highlights       — UV ring, sunrise/set, max/min
+  ├─ HourlyForecast   — 24h scrollable
+  └─ DailyForecast    — 7‑day clickable forecast
+```
 
-### APIs Used (all free, no key)
+### APIs Used
 
-| Service | Endpoint | Purpose |
-|---------|----------|---------|
+| Service | Endpoint | Use |
+|---------|----------|-----|
 | Open-Meteo Geocoding | `/v1/search?name=...` | City autocomplete |
 | Open-Meteo Weather | `/v1/forecast?lat=...` | All weather data |
-| BigDataCloud | `reverse-geocode-client` | Coordinate → city name |
+| BigDataCloud | `reverse-geocode-client` | Coordinates → city name |
+
+All are **free** and require **no API key**.
 
 <br/>
 
 <div align="center">
-
-<svg width="200" height="3" viewBox="0 0 200 3">
-  <rect x="0" y="0" width="200" height="3" rx="1.5" fill="rgba(255,255,255,0.08)"/>
-  <rect x="0" y="0" height="3" rx="1.5" fill="url(#sg)">
-    <animate attributeName="width" values="0;200;0" dur="4s" repeatCount="indefinite"/>
-  </rect>
+<svg width="160" height="3" viewBox="0 0 160 3">
+  <rect width="160" height="3" rx="1.5" fill="rgba(255,255,255,0.06)"/>
+  <rect height="3" rx="1.5" fill="url(#g)"><animate attributeName="width" values="0;160;0" dur="4s" repeatCount="indefinite"/></rect>
 </svg>
-
 </div>
 
 <br/>
 
 ## 🗂️ Project Structure
 
-<pre style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; font-size: 0.85rem; line-height: 1.7;">
-<span style="color: #facc15;">src/</span>
-├── <span style="color: #60a5fa;">App.css</span>               # All styles + CSS variables + responsive
-├── <span style="color: #60a5fa;">App.jsx</span>               # Root: state, theme, gradient, layout
-├── <span style="color: #60a5fa;">main.jsx</span>              # Entry point (React 19 StrictMode)
-├── <span style="color: #a78bfa;">components/</span>
-│   ├── <span style="color: #60a5fa;">CurrentWeather.jsx</span>
-│   ├── <span style="color: #60a5fa;">DailyForecast.jsx</span>
-│   ├── <span style="color: #60a5fa;">ErrorBoundary.jsx</span>
-│   ├── <span style="color: #60a5fa;">Header.jsx</span>
-│   ├── <span style="color: #60a5fa;">Highlights.jsx</span>
-│   ├── <span style="color: #60a5fa;">HourlyForecast.jsx</span>
-│   ├── <span style="color: #60a5fa;">ParticleBackground.jsx</span>
-│   └── <span style="color: #60a5fa;">WeatherDetails.jsx</span>
-├── <span style="color: #a78bfa;">hooks/</span>
-│   └── <span style="color: #60a5fa;">useWeather.js</span>
-└── <span style="color: #a78bfa;">utils/</span>
-    ├── <span style="color: #60a5fa;">api.js</span>
-    ├── <span style="color: #60a5fa;">mock.js</span>
-    └── <span style="color: #60a5fa;">weatherCodes.js</span>
-</pre>
+```
+src/
+├── App.css                # All styles + CSS variables + responsive
+├── App.jsx                # Root component
+├── main.jsx               # Entry point
+├── components/
+│   ├── CurrentWeather.jsx
+│   ├── DailyForecast.jsx
+│   ├── ErrorBoundary.jsx
+│   ├── Header.jsx
+│   ├── Highlights.jsx
+│   ├── HourlyForecast.jsx
+│   ├── ParticleBackground.jsx
+│   └── WeatherDetails.jsx
+├── hooks/
+│   └── useWeather.js
+└── utils/
+    ├── api.js
+    ├── mock.js
+    └── weatherCodes.js
+```
 
 <br/>
 
 <div align="center">
-
-<svg width="200" height="3" viewBox="0 0 200 3">
-  <rect x="0" y="0" width="200" height="3" rx="1.5" fill="rgba(255,255,255,0.08)"/>
-  <rect x="0" y="0" height="3" rx="1.5" fill="url(#sg)">
-    <animate attributeName="width" values="0;200;0" dur="4s" repeatCount="indefinite"/>
-  </rect>
+<svg width="160" height="3" viewBox="0 0 160 3">
+  <rect width="160" height="3" rx="1.5" fill="rgba(255,255,255,0.06)"/>
+  <rect height="3" rx="1.5" fill="url(#g)"><animate attributeName="width" values="0;160;0" dur="4s" repeatCount="indefinite"/></rect>
 </svg>
-
 </div>
 
 <br/>
@@ -338,55 +202,40 @@ User opens app
 
 | Mode | Background | Text | Glass |
 |------|-----------|------|-------|
-| 🌙 **Dark** | `#020617` | `#f1f5f9` | White tint `0.08` |
-| ☀️ **Light** | `#f1f5f9` | `#334155` | White overlay `0.35` |
+| 🌙 Dark | `#020617` | `#f1f5f9` | White tint 0.08 |
+| ☀️ Light | `#f1f5f9` | `#334155` | White overlay 0.35 |
 
-The **dynamic gradient** blends three factors in real-time:
-- ⏰ **Time of day** — night (deep blue), day (sky blue), evening (purple/orange)
-- 🌡️ **Temperature** — warm tones for hot, cool tones for cold
-- 🌦️ **Weather code** — gray (overcast), white-blue (snow), dark (storms)
+Dynamic background gradient blends **time of day**, **temperature**, and **weather code** in real-time.
 
 <br/>
 
 <div align="center">
-
-<svg width="200" height="3" viewBox="0 0 200 3">
-  <rect x="0" y="0" width="200" height="3" rx="1.5" fill="rgba(255,255,255,0.08)"/>
-  <rect x="0" y="0" height="3" rx="1.5" fill="url(#sg)">
-    <animate attributeName="width" values="0;200;0" dur="4s" repeatCount="indefinite"/>
-  </rect>
+<svg width="160" height="3" viewBox="0 0 160 3">
+  <rect width="160" height="3" rx="1.5" fill="rgba(255,255,255,0.06)"/>
+  <rect height="3" rx="1.5" fill="url(#g)"><animate attributeName="width" values="0;160;0" dur="4s" repeatCount="indefinite"/></rect>
 </svg>
-
 </div>
 
 <br/>
 
 ## 🌐 Responsive Breakpoints
 
-<div class="anim-fade-3">
-
-| Screen | Container | Section | Layout |
-|--------|-----------|---------|--------|
-| ≥1024px | 20px | 22px | 3‑column grid |
-| 768–1023px | 14px | 22px | 2‑column grid |
-| 541–767px | 14px | 22px | Single column |
-| 421–540px | 6px | 12px | Compact mobile |
-| 361–420px | 4px | 10px | iPhone 12 Pro |
-| ≤360px | 3px | 6px | Small screens |
-
-</div>
+| Screen | Container | Section | Grid |
+|--------|-----------|---------|------|
+| ≥1024px | 20px pad | 22px pad | 3 columns |
+| 768–1023px | 14px pad | 22px pad | 2 columns |
+| 541–767px | 14px pad | 22px pad | 1 column |
+| 421–540px | 6px pad | 12px pad | 1 column |
+| 361–420px | 4px pad | 10px pad | 1 column |
+| ≤360px | 3px pad | 6px pad | 1 column |
 
 <br/>
 
 <div align="center">
-
-<svg width="200" height="3" viewBox="0 0 200 3">
-  <rect x="0" y="0" width="200" height="3" rx="1.5" fill="rgba(255,255,255,0.08)"/>
-  <rect x="0" y="0" height="3" rx="1.5" fill="url(#sg)">
-    <animate attributeName="width" values="0;200;0" dur="4s" repeatCount="indefinite"/>
-  </rect>
+<svg width="160" height="3" viewBox="0 0 160 3">
+  <rect width="160" height="3" rx="1.5" fill="rgba(255,255,255,0.06)"/>
+  <rect height="3" rx="1.5" fill="url(#g)"><animate attributeName="width" values="0;160;0" dur="4s" repeatCount="indefinite"/></rect>
 </svg>
-
 </div>
 
 <br/>
@@ -394,68 +243,34 @@ The **dynamic gradient** blends three factors in real-time:
 ## 🛠️ Built With
 
 <p>
-  <span class="tag anim-fade-4">⚛️ React 19</span>
-  <span class="tag anim-fade-4">⚡ Vite 8</span>
-  <span class="tag anim-fade-4">🌐 Open-Meteo API</span>
-  <span class="tag anim-fade-4">🗺️ BigDataCloud API</span>
-  <span class="tag anim-fade-4">🔤 Inter Font</span>
+  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white&style=flat-square" alt="React"/>
+  <img src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white&style=flat-square" alt="Vite"/>
+  <img src="https://img.shields.io/badge/Open--Meteo-API-00BFFF?style=flat-square" alt="Open-Meteo"/>
+  <img src="https://img.shields.io/badge/BigDataCloud-Geocode-6366f1?style=flat-square" alt="BigDataCloud"/>
+  <img src="https://img.shields.io/badge/Inter-Font-94a3b8?style=flat-square" alt="Inter Font"/>
 </p>
 
 <br/>
 
 <div align="center">
-
-<svg width="200" height="3" viewBox="0 0 200 3">
-  <rect x="0" y="0" width="200" height="3" rx="1.5" fill="rgba(255,255,255,0.08)"/>
-  <rect x="0" y="0" height="3" rx="1.5" fill="url(#sg)">
-    <animate attributeName="width" values="0;200;0" dur="4s" repeatCount="indefinite"/>
-  </rect>
+<svg width="160" height="3" viewBox="0 0 160 3">
+  <rect width="160" height="3" rx="1.5" fill="rgba(255,255,255,0.06)"/>
+  <rect height="3" rx="1.5" fill="url(#g)"><animate attributeName="width" values="0;160;0" dur="4s" repeatCount="indefinite"/></rect>
 </svg>
-
 </div>
 
 <br/>
 
 ## 📄 License
 
-<p style="color: rgba(255,255,255,0.6);">
-  This project is open source. Feel free to use, modify, and distribute it.
-</p>
+<p style="color:#64748b;">This project is open source. Feel free to use, modify, and distribute it.</p>
 
 <br/>
 
 ---
 
 <div align="center">
-
-<svg width="160" height="40" viewBox="0 0 160 40">
-  <text x="80" y="22" text-anchor="middle" font-family="system-ui" font-size="11" fill="rgba(255,255,255,0.4)">
-    Built with ❤️ using React + Vite
-  </text>
-  <text x="80" y="36" text-anchor="middle" font-family="system-ui" font-size="10" fill="rgba(255,255,255,0.25)">
-    Data by Open-Meteo
-  </text>
-  <text x="80" y="22" text-anchor="middle" font-family="system-ui" font-size="11" fill="rgba(255,255,255,0.4)" opacity="0">
-    Built with ❤️ using React + Vite
-    <animate attributeName="opacity" values="0;1;1;0" dur="4s" repeatCount="indefinite" begin="1s"/>
-  </text>
-  <text x="80" y="36" text-anchor="middle" font-family="system-ui" font-size="10" fill="rgba(255,255,255,0.25)" opacity="0">
-    Data by Open-Meteo
-    <animate attributeName="opacity" values="0;1;1;0" dur="4s" repeatCount="indefinite" begin="1s"/>
-  </text>
-</svg>
-
-<br/>
-<br/>
-
-<a href="https://github.com/kashyap-p/weather-tracker">
-  <svg width="180" height="38" viewBox="0 0 180 38">
-    <rect x="0" y="0" width="180" height="38" rx="19" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-    <text x="90" y="23" text-anchor="middle" font-family="system-ui" font-size="13" font-weight="600" fill="#a78bfa">View on GitHub</text>
-    <rect x="0" y="0" width="180" height="38" rx="19" fill="rgba(96,165,250,0.15)" opacity="0">
-      <animate attributeName="opacity" values="0;0;0.15;0" dur="3s" repeatCount="indefinite"/>
-    </rect>
-  </svg>
-</a>
-
+  <p style="color:#64748b;font-size:0.9rem;">Built with ❤️ using React + Vite · Data by <a href="https://open-meteo.com/" style="color:#60a5fa;">Open-Meteo</a></p>
+  <br/>
+  <a href="https://github.com/kashyap-p/weather-tracker" style="display:inline-block;padding:10px 28px;border-radius:20px;background:rgba(96,165,250,0.1);color:#a78bfa;font-weight:600;text-decoration:none;border:1px solid rgba(96,165,250,0.2);font-size:0.9rem;">View on GitHub</a>
 </div>
