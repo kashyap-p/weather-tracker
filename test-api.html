@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html><body>
+<h1>API Test</h1>
+<div id="status">Testing...</div>
+<script>
+async function test() {
+  const el = document.getElementById('status');
+  try {
+    el.textContent = 'Fetching weather API...';
+    let r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=28.6139&longitude=77.209&current=temperature_2m&timezone=auto');
+    let d = await r.json();
+    el.textContent = 'Weather: ' + d.current.temperature_2m + '°C';
+  } catch(e) {
+    el.textContent = 'ERROR: ' + e.message;
+  }
+}
+test();
+</script></body></html>
