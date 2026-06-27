@@ -1,6 +1,7 @@
 import { formatTime, convertTemp } from '../utils/weatherCodes'
+import AnimatedCard from './AnimatedCard'
 
-export default function Highlights({ data, unit }) {
+export default function Highlights({ data, unit, onFieldClick }) {
   const c = data.current
   const d = data.daily
   const unitSymbol = unit === 'F' ? '°F' : '°C'
@@ -23,33 +24,42 @@ export default function Highlights({ data, unit }) {
       sub: uvInfo.label,
       color: uvInfo.color,
       type: 'uv',
+      field: 'uv_index',
     },
     {
       label: 'Sunrise',
       value: formatTime(d.sunrise[0]),
       sub: 'Sunset ' + formatTime(d.sunset[0]),
       icon: '🌅',
+      field: 'sunrise',
+      rawValue: d.sunrise[0],
     },
     {
       label: 'Visibility',
       value: `${((c.visibility || 10000) / 1000).toFixed(1)} km`,
       sub: c.visibility >= 8000 ? 'Good' : c.visibility >= 4000 ? 'Moderate' : 'Poor',
       icon: '👁️',
+      field: 'visibility',
     },
     {
       label: 'Max Temp',
       value: `${convertTemp(d.temperature_2m_max[0], unit)}${unitSymbol}`,
       sub: `Min ${convertTemp(d.temperature_2m_min[0], unit)}${unitSymbol}`,
       icon: '🌡️',
+      field: 'temperature_2m_max',
     },
   ]
 
   return (
-    <section className="glass highlights-section">
+    <AnimatedCard className="glass highlights-section" delay={0.2}>
       <h3>Today's Highlights</h3>
       <div className="highlights-grid">
         {highlights.map((h, i) => (
-          <div key={i} className="highlight-card">
+          <div
+            key={i}
+            className="highlight-card"
+            onClick={() => onFieldClick(h.field, h.value)}
+          >
             {h.type === 'uv' ? (
               <>
                 <div className="highlight-uv-ring" style={{ background: `conic-gradient(${uvInfo.color} ${Math.min((c.uv_index ?? 0) / 11 * 360, 360)}deg, rgba(255,255,255,0.06) 0deg)` }}>
@@ -69,6 +79,6 @@ export default function Highlights({ data, unit }) {
           </div>
         ))}
       </div>
-    </section>
+    </AnimatedCard>
   )
 }

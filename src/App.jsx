@@ -1,14 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import useWeather from './hooks/useWeather'
 import ErrorBoundary from './components/ErrorBoundary'
-import ParticleBackground from './components/ParticleBackground'
 import Header from './components/Header'
 import CurrentWeather from './components/CurrentWeather'
 import WeatherDetails from './components/WeatherDetails'
 import HourlyForecast from './components/HourlyForecast'
 import DailyForecast from './components/DailyForecast'
 import Highlights from './components/Highlights'
-import { getWeatherInfo, getDynamicGradient } from './utils/weatherCodes'
+import { getDynamicGradient } from './utils/weatherCodes'
+import Scene3D from './components/Scene3D'
+import useNotifications from './hooks/useNotifications'
+
+const DataModal = lazy(() => import('./components/DataModal'))
 
 export default function App() {
   const {
@@ -18,23 +22,27 @@ export default function App() {
 
   const [theme, setTheme] = useState(() => localStorage.getItem('wt-theme') || 'dark')
   const [bgGradient, setBgGradient] = useState(['#0f172a', '#1e293b'])
+  const [toast, setToast] = useState('')
+  const [modalData, setModalData] = useState(null)
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('wt-theme', theme)
   }, [theme])
 
-  function toggleTheme() {
-    setTheme(t => t === 'dark' ? 'light' : 'dark')
-  }
-  const [particleType, setParticleType] = useState('sun')
-  const [toast, setToast] = useState('')
+  const toggleTheme = useCallback(() => setTheme(t => t === 'dark' ? 'light' : 'dark'), [])
+
+  useEffect(() => {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission()
+    }
+  }, [])
+
+  useNotifications(weather)
 
   useEffect(() => {
     if (weather) {
-      const info = getWeatherInfo(weather.current.weather_code)
       setBgGradient(getDynamicGradient(weather.current.temperature_2m, weather.current.time, weather.current.weather_code))
-      setParticleType(info.particleType)
     }
   }, [weather])
 
@@ -58,12 +66,21 @@ export default function App() {
     )
   }, [loadByCoords])
 
+  const handleFieldClick = useCallback((field, value) => {
+    setModalData({ field, value })
+  }, [])
+
+  const closeModal = useCallback(() => setModalData(null), [])
+
   return (
     <ErrorBoundary>
       <div className="app" style={{ '--gradient-1': bgGradient[0], '--gradient-2': bgGradient[1] }}>
-        <ParticleBackground type={particleType} />
         <div className="bg-overlay" />
         {theme === 'dark' ? <div className="dark-tint" /> : <div className="light-tint" />}
+
+        {weather && (
+            <Scene3D weatherCode={weather.current.weather_code} />
+        )}
 
         <div className="container">
           <Header
@@ -76,60 +93,119 @@ export default function App() {
             onThemeToggle={toggleTheme}
           />
 
-          {loading && (
-            <div className="loading-wrap">
-              <div className="spinner" />
-              <p>Fetching weather data...</p>
-            </div>
-          )}
+          <AnimatePresence mode="wait">
+            {loading && (
+              <motion.div
+                key="loading"
+                className="loading-wrap"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <motion.div
+                  className="spinner"
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }}
+                />
+                <p>Fetching weather data...</p>
+              </motion.div>
+            )}
 
-          {!loading && weather && (
-            <>
-              {mockUsed.current && (
-                <div className="glass demo-notice">
-                  <span>⚠️ Using sample data — API unavailable. <button className="retry-btn inline" onClick={() => loadByCoords(28.6139, 77.209)}>Retry</button></span>
+            {!loading && weather && (
+              <motion.div
+                key="weather"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                {mockUsed.current && (
+                  <motion.div
+                    className="glass demo-notice"
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    <span>⚠️ Using sample data — API unavailable. <button className="retry-btn inline" onClick={() => loadByCoords(28.6139, 77.209)}>Retry</button></span>
+                  </motion.div>
+                )}
+                <div className="main-grid">
+                  <CurrentWeather data={weather} location={location} unit={unit} onFieldClick={handleFieldClick} />
+                  <WeatherDetails data={weather} unit={unit} onFieldClick={handleFieldClick} />
+                  <Highlights data={weather} unit={unit} onFieldClick={handleFieldClick} />
+                  <HourlyForecast data={weather} unit={unit} selectedDay={selectedDay} onFieldClick={handleFieldClick} />
+                  <div className="wrap-full">
+                    <DailyForecast
+                      data={weather}
+                      unit={unit}
+                      selectedDay={selectedDay}
+                      onSelectDay={setSelectedDay}
+                      onFieldClick={handleFieldClick}
+                    />
+                  </div>
                 </div>
-              )}
-              <div className="main-grid">
-                <CurrentWeather data={weather} location={location} unit={unit} />
-                <WeatherDetails data={weather} unit={unit} />
-                <Highlights data={weather} unit={unit} />
-                <HourlyForecast data={weather} unit={unit} selectedDay={selectedDay} />
-                <div className="wrap-full">
-                  <DailyForecast
-                    data={weather}
-                    unit={unit}
-                    selectedDay={selectedDay}
-                    onSelectDay={setSelectedDay}
-                  />
-                </div>
-              </div>
-            </>
-          )}
+              </motion.div>
+            )}
 
-          {!loading && !weather && (
-            <div className="loading-wrap">
-              <p className="idle-text" style={{ color: error ? '#f87171' : undefined }}>
-                {error || 'Search for a city to see weather'}
-              </p>
-              {error && (
-                <button className="retry-btn" onClick={() => loadByCoords(28.6139, 77.209)}>
-                  Retry
-                </button>
-              )}
-            </div>
-          )}
+            {!loading && !weather && (
+              <motion.div
+                key="idle"
+                className="loading-wrap"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <motion.p
+                  className="idle-text"
+                  style={{ color: error ? '#f87171' : undefined }}
+                  animate={{ y: [0, -4, 0] }}
+                  transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+                >
+                  {error || 'Search for a city to see weather'}
+                </motion.p>
+                {error && (
+                  <motion.button
+                    className="retry-btn"
+                    onClick={() => loadByCoords(28.6139, 77.209)}
+                    whileHover={{ scale: 1.04 }}
+                    whileTap={{ scale: 0.96 }}
+                  >
+                    Retry
+                  </motion.button>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          <footer className="glass footer">
+          <motion.footer
+            className="glass footer"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
             <p>Data from <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a></p>
-          </footer>
+          </motion.footer>
         </div>
 
         {toast && (
-          <div className="toast">
+          <motion.div
+            className="toast"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+          >
             <span>{toast}</span>
             <button onClick={() => { setToast(''); setError('') }}>✕</button>
-          </div>
+          </motion.div>
+        )}
+
+        {modalData && (
+          <Suspense fallback={null}>
+            <DataModal
+              field={modalData.field}
+              value={modalData.value}
+              onClose={closeModal}
+            />
+          </Suspense>
         )}
       </div>
     </ErrorBoundary>
