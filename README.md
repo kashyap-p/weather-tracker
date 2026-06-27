@@ -1,6 +1,6 @@
-# Weather Tracker
+# Weather Tracker 3D
 
-A live weather dashboard with glassmorphism UI, built with **React** + **Vite**. Powered by the free **Open-Meteo API** — no API key required.
+A live weather dashboard with **3D particle effects**, **liquid glass UI**, and **auto weather notifications**. Built with **React 19** + **Vite 8**. Powered by the free **Open-Meteo API** — no API key required.
 
 ---
 
@@ -11,7 +11,8 @@ A live weather dashboard with glassmorphism UI, built with **React** + **Vite**.
 | 🌤️ Live Weather | 🔍 City Autocomplete | 📍 Auto-detect Location |
 | 🎨 Dynamic Background | 🌙 Dark / Light Theme | 📊 8 Weather Details |
 | ⏳ 24‑Hour Forecast | 📅 7‑Day Forecast | 🌈 Highlights Cards |
-| ❄️ Particle Effects | 📱 Fully Responsive | ⚡ Offline Fallback |
+| 🎯 3D Particle Effects | 📱 Fully Responsive | ⚡ Offline Fallback |
+| 🔔 Auto Weather Alerts | 🖱️ Clickable Data Modals | 🧊 Liquid Glass UI |
 
 ---
 
@@ -30,20 +31,33 @@ npm run preview    # preview build
 
 ---
 
+## What's New
+
+- **3D Weather Particles** — animated sun glow, rain streaks, snowflakes, storm particles, fog, and clouds rendered on a canvas layer based on weather conditions
+- **Liquid Glass UI** — frosted glass cards with animated shine overlays, blur effects, and morphing transitions
+- **Clickable Data** — tap any weather metric to see an educational modal explaining what it means
+- **Auto Notifications** — browser notifications for severe weather (storms, extreme heat, heavy rain, high UV, strong winds)
+- **Framer Motion** — spring animations, staggered list reveals, hover/tap micro-interactions throughout
+- **iPhone Optimized** — `viewport-fit=cover`, safe areas, responsive down to 360px (iPhone SE)
+
+---
+
 ## How It Works
 
 ```
 User opens app
   ├─ Browser geolocation → reverse geocode → fetch weather
-  └─ Search city → geocode → fetch weather
+  ├─ Search city → geocode → fetch weather
+  └─ Bad weather detected → browser notification
        │
        ▼
   Render:
-  ├─ CurrentWeather   — temp, icon, location, feels-like
-  ├─ WeatherDetails   — 8‑card detail grid
-  ├─ Highlights       — UV ring, sunrise/set, max/min
-  ├─ HourlyForecast   — 24h scrollable
-  └─ DailyForecast    — 7‑day clickable forecast
+  ├─ Scene3D           — weather-specific particle canvas (sun/rain/snow/storm)
+  ├─ CurrentWeather    — temp, icon, location, feels-like (clickable)
+  ├─ WeatherDetails    — 8‑card detail grid (clickable)
+  ├─ Highlights        — UV ring, sunrise/set, max/min (clickable)
+  ├─ HourlyForecast    — 24h scrollable (clickable)
+  └─ DailyForecast     — 7‑day clickable forecast (clickable)
 ```
 
 ### APIs Used
@@ -58,28 +72,49 @@ All are **free** and require **no API key**.
 
 ---
 
+## Auto Notifications
+
+The app monitors weather data and sends browser notifications for:
+
+| Condition | Alert |
+|---|---|
+| Thunderstorm (code 95-99) | ⛈️ Seek shelter |
+| Heavy rain / snow | 🌧️ Umbrella / travel caution |
+| Extreme heat ≥40°C | 🔥 Stay hydrated |
+| Freezing ≤0°C | 🥶 Bundle up |
+| UV index 6+ | ☀️ Sun protection advised |
+| Wind ≥30 km/h | 💨 Windy conditions |
+| Rain chance 80%+ | 🌧️ High rain probability |
+
+Notifications are deduplicated per day via localStorage.
+
+---
+
 ## Project Structure
 
 ```
 src/
-├── App.css                # All styles + CSS variables + responsive
-├── App.jsx                # Root component
-├── main.jsx               # Entry point (React 19 StrictMode)
+├── App.css                   # All styles + CSS variables + responsive
+├── App.jsx                   # Root component
+├── main.jsx                  # Entry point (React 19 StrictMode)
 ├── components/
-│   ├── CurrentWeather.jsx
-│   ├── DailyForecast.jsx
-│   ├── ErrorBoundary.jsx
-│   ├── Header.jsx
-│   ├── Highlights.jsx
-│   ├── HourlyForecast.jsx
-│   ├── ParticleBackground.jsx
-│   └── WeatherDetails.jsx
+│   ├── AnimatedCard.jsx      # Framer Motion glass card wrapper
+│   ├── CurrentWeather.jsx    # Current conditions (clickable)
+│   ├── DailyForecast.jsx     # 7-day forecast (clickable)
+│   ├── DataModal.jsx         # Educational info popup
+│   ├── ErrorBoundary.jsx     # Error boundary with retry
+│   ├── Header.jsx            # Search bar, theme/unit toggles
+│   ├── Highlights.jsx        # UV, sunrise, visibility, max temp
+│   ├── HourlyForecast.jsx    # 24-hour scrollable (clickable)
+│   ├── Scene3D.jsx           # Weather particle canvas
+│   └── WeatherDetails.jsx    # 8-card detail grid (clickable)
 ├── hooks/
-│   └── useWeather.js
+│   ├── useNotifications.js   # Weather alert notifications
+│   └── useWeather.js         # Weather data fetching
 └── utils/
-    ├── api.js
-    ├── mock.js
-    └── weatherCodes.js
+    ├── api.js                # Open-Meteo API wrappers
+    ├── mock.js               # Fallback mock data
+    └── weatherCodes.js       # WMO code mapping + helpers
 ```
 
 ---
@@ -89,7 +124,7 @@ src/
 | Mode | Background | Text | Glass |
 |------|-----------|------|-------|
 | 🌙 **Dark** | `#020617` | `#f1f5f9` | White tint 0.08 |
-| ☀️ **Light** | `#f1f5f9` | `#334155` | White overlay 0.35 |
+| ☀️ **Light** | `#f1f5f9` | `#334155` | White overlay 0.30 |
 
 The dynamic background gradient blends **time of day**, **temperature**, and **weather code** in real-time.
 
@@ -102,9 +137,9 @@ The dynamic background gradient blends **time of day**, **temperature**, and **w
 | ≥1024px | 20px pad | 22px pad | 3‑column grid |
 | 768–1023px | 14px pad | 22px pad | 2‑column grid |
 | 541–767px | 14px pad | 22px pad | 1 column |
-| 421–540px | 6px pad | 12px pad | 1 column |
+| 421–540px (iPhone) | 6px pad | 12px pad | 1 column |
 | 361–420px | 4px pad | 10px pad | 1 column |
-| ≤360px | 3px pad | 6px pad | 1 column |
+| ≤360px (iPhone SE) | 3px pad | 6px pad | 1 column |
 
 ---
 
@@ -112,6 +147,7 @@ The dynamic background gradient blends **time of day**, **temperature**, and **w
 
 - [React](https://react.dev/) 19 — UI framework
 - [Vite](https://vitejs.dev/) 8 — Build tool
+- [Framer Motion](https://www.framer.com/motion/) 11 — Animations
 - [Open-Meteo API](https://open-meteo.com/) — Weather data
 - [BigDataCloud API](https://www.bigdatacloud.com/) — Reverse geocoding
 - [Inter Font](https://fonts.google.com/specimen/Inter) — Typography
